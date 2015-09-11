@@ -6,7 +6,7 @@ history_deck =[
     [1812, 'somewar'],
     [1690, 'potatofamine'],
     [1999, 'thematrixareforkids'],
-    [1983, 'Doctor J Stizzle was born']
+    [1983, 'Doctor J Stizzle was born'],
     [1865, 'Assassination of Abraham Lincoln'],
     [1969, 'First Moon landing'],
     [1803, 'The Louisiana Purchase'],
@@ -16,7 +16,7 @@ history_deck =[
     ]
 
 
-filmandculure_deck =[
+filmandculture_deck =[
     [1983, 'Scarface (movie)'],
     [1983, 'Flashdance (movie)'],
     [1983, 'War Games (movie)'],
