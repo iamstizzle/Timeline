@@ -3,8 +3,6 @@
 #---Setup---#
 from random import randint
 import time
-#from operator import itemgetter
-#test# print(randint(1,20))
 from deck1 import history_deck
 
 
@@ -13,7 +11,8 @@ from deck1 import history_deck
 deck = history_deck
 gameboard = []
 placementguess = []
-
+##################################
+##### functions ##################
 def drawcard(whodraws):
         randdraw = randint(0, len(deck)-1)
         card_drawn = deck[randdraw]
@@ -33,21 +32,20 @@ def sortboard(board):
                 return board
 
 
-
-def validguess(placementguess):
-        correctguess = True
-        for each in range(0, len(placementguess) -1):
-                print("debug", placementguess[each][0], placementguess[each+1][0])
-                if placementguess[each][0] <= placementguess[each +1][0]:
-                        print("valid guess")
+#### need to debug ####
+def validguess(placementguess2):
+        for each in range(0, len(placementguess2)-1):
+                if placementguess2[each][0] <= placementguess2[(each +1)][0]:
+                        pass
                 else:
                         print("Incorrect guess")
                         return False
+        return True
 
 def promptforyear(playerchoice, currentboard):
         count = 0
         tempguess = currentboard
-        yearguess = int(raw_input("Guess the year the event happened: "))
+        yearguess = int(raw_input("Guess the year the -- %s -- happened: " % playerchoice[1]))
         for each in tempguess:
                 count +=1
                 if yearguess < each[0]:
@@ -55,7 +53,7 @@ def promptforyear(playerchoice, currentboard):
                         return tempguess
         else:
                 tempguess.append(playerchoice)
-                print("sorry this was a higher guess than all")
+                print("sorry this was a higher guess than all\n")
                 return tempguess
 
 
@@ -89,12 +87,10 @@ class playerhand():
 
 
 #-----------------------------------
-
-       ### game test
-
-
+######game test
 ## board setup
 
+drawcard(gameboard)
 drawcard(gameboard)
 gameboard = sortboard(gameboard)
 placementguess = sortboard(gameboard)
@@ -108,59 +104,49 @@ drawcard(player1.hand)
 drawcard(player1.hand)
 drawcard(player1.hand)
 drawcard(player1.hand)
-print("\n\nthe players hand contains:")
+print("\n\nthe players hand contains:\n")
 player1.showhand()
 
 
+#print("debug 1 entity gameboard    ", gameboard)
 
-### show gameboard
-print("debug 1 entity gameboard    ", gameboard)
-##### what the hell is it doing that it appends to gameboard
-######
-##### @#$#@$%@##$  promptforyear breakssomuchshit
+##### player starts #########
+
+
 placementguess = promptforyear(player1.pickcard(), placementguess)
 
-print("debug 2 entity gameboard  when i never appeneded to it" ,  gameboard)
 
 ##is placement guess valid
+print("was this guess valid? ", validguess(placementguess))
 
 
-
-
-print("\n\n")
-if len(gameboard) > 1:
-        print("ERROR\n\nError\nAn invalid entry was added to the game board\n\n DEBUG HELp? Where is it ever setting the global var gameboard to be the same as placementguess")
-
-
-
-
-
-
-"""        
-print(validguess(placementguess))
 if validguess(placementguess) == True:
         print("!!!! \n!!!!You Guessed Correctly!!!!")
+        gameboard = placementguess
 else:
         print("This is not correct. Drawing another card.")
         time.sleep(1)
         drawcard(player1.hand)
-        ## need to make this check a function so i can do it for any player.
+        placementguess = gameboard
 
-        """
-        
+## have to updated placementguess###
+placementguess = gameboard
 
+player1.showhand()
 
-
-
-
-
-
-
-
-
-
+print("debug placement guess", showcards(placementguess))
+#3 something wrong here. This should not be showing none since I just set this equal to gameboard
+print("\n\n")
+showcards(gameboard)
+print("\n")
+player1.showhand()
 
 
 
 
-time.sleep(3)
+
+
+
+
+
+time.sleep(9)
