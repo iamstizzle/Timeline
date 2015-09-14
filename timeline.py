@@ -12,7 +12,7 @@ from deck1 import history_deck
 ##set game global variables ##
 deck = history_deck
 gameboard = []
-#placementguess = []
+placementguess = []
 
 def drawcard(whodraws):
         randdraw = randint(0, len(deck)-1)
@@ -97,6 +97,7 @@ class playerhand():
 
 drawcard(gameboard)
 gameboard = sortboard(gameboard)
+placementguess = sortboard(gameboard)
 print("the game board displays : \n")
 showcards(gameboard)
 
@@ -117,7 +118,7 @@ print("debug 1 entity gameboard    ", gameboard)
 ##### what the hell is it doing that it appends to gameboard
 ######
 ##### @#$#@$%@##$  promptforyear breakssomuchshit
-placementguess = promptforyear(player1.pickcard(), gameboard)
+placementguess = promptforyear(player1.pickcard(), placementguess)
 
 print("debug 2 entity gameboard  when i never appeneded to it" ,  gameboard)
 
