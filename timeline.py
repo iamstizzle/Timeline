@@ -8,11 +8,11 @@ import time
 from deck1 import history_deck
 
 
+
 ##set game global variables ##
 deck = history_deck
-print(deck)
 gameboard = []
-pacementguess = []
+#placementguess = []
 
 def drawcard(whodraws):
         randdraw = randint(0, len(deck)-1)
@@ -34,62 +34,29 @@ def sortboard(board):
 
 
 
+def validguess(placementguess):
+        correctguess = True
+        for each in range(0, len(placementguess) -1):
+                print("debug", placementguess[each][0], placementguess[each+1][0])
+                if placementguess[each][0] <= placementguess[each +1][0]:
+                        print("valid guess")
+                else:
+                        print("Incorrect guess")
+                        return False
 
-print("deck\n" + str(deck) +  "\n\ngameboard\n" + str(gameboard) + '\n')
-drawcard(gameboard)
-drawcard(gameboard)
-print("________________________________")
-drawcard(gameboard)
-showcards(gameboard)
-print("board:   \n\n")
-gameboard = sortboard(gameboard)
-print("boardsorted:   \n\n")
-showcards(gameboard)
-
-## probably can nuke this section soon.  Only need to keep track of player hands as a class.
-## global board/card array is better tracked outsite of a class.
-"""class timeline():
-        def __init__(self):
-                self.playertot = 0
-                self.deck = history_deck
-                self.board = []
-                self.randdraw = False
-
-
-        def playersetup(self):
-                players = input("Please use a number 1-4:")
-                self.playertot = players
-                ### review. not necessary for this class. Should be defined in the actual gameplay section
-
-        def removefromdeck(self,cardrem):
-                del self.deck[cardrem]
-        
-        def loadhand(self):
-                self.randdraw = randint(0, len(self.deck)-1)
-                #print("random number drawn from deck",self.randdraw)
-                addtoplayer = self.deck[self.randdraw]
-                self.removefromdeck(self.randdraw)
-                return addtoplayer
-
-        def startboard(self):
-                self.randdraw = randint(0, len(self.deck)-1)
-                #print("random number drawn from deck",self.randdraw)
-                addtoboard = self.deck[self.randdraw]
-                self.removefromdeck(self.randdraw)
-                self.board.append(addtoboard)
-
-        def addpick(self, playerchoice):
-                self.board.append(playerchoice)
-
-        def showboard(self):
-                for each in self.board:
-                        print(str(each))
-                        
-                
-                     
-        def sortboard(self):
-                self.board = sorted(self.board, key=lambda x: x[0])
-                #sort(self.board, lamba x: x, key=item[0])"""
+def promptforyear(playerchoice, currentboard):
+        count = 0
+        tempguess = currentboard
+        yearguess = int(raw_input("Guess the year the event happened: "))
+        for each in tempguess:
+                count +=1
+                if yearguess < each[0]:
+                        tempguess.insert(count -1, playerchoice)
+                        return tempguess
+        else:
+                tempguess.append(playerchoice)
+                print("sorry this was a higher guess than all")
+                return tempguess
 
 
 
@@ -99,11 +66,10 @@ class playerhand():
         def __init__(self):
                 self.hand = []
                 self.cardchoice = False
-                self.cardyearguess = False
-
-        def drawcard(self, getcard):
+                
+        #def drawcard(self, getcard):
                 #will get card from loadhand function in the timeline class getcard must = objectassignedtoclass.loadhand()
-                self.hand.append(getcard)
+                #self.hand.append(getcard)
 
         def showhand(self):
                 count = 1
@@ -114,85 +80,79 @@ class playerhand():
         def pickcard(self):
                 self.cardchoice = False
                 cardpick = raw_input("Which card do you choose: ")
-                print(cardpick)
                 self.cardchoice = self.hand[(int(cardpick) -1)]
                 choice = self.cardchoice
                 ## now remove that from hand.
                 del self.hand[(int(cardpick) -1)]
                 return choice
-                ### need a value for guess date
-                ### self.cardyearguess
 
 
-                
-        def guessyear(self):
-                pass # guess the year of the chosen card to be placed on the gameboard
-        def playcard(self):
-                pass # rules for placing chosen card on board using guessed year
-                # also needs to remove this from hand
 
 #-----------------------------------
 
-       
+       ### game test
 
-                        
-## -- simple gameplay functionality testing--- Temp---#
-#sanity testing phase#
 
-                #define objects to classes #
+## board setup
 
+drawcard(gameboard)
+gameboard = sortboard(gameboard)
+print("the game board displays : \n")
+showcards(gameboard)
+
+
+## give player cards
 player1 = playerhand()
-        ##
 drawcard(player1.hand)
 drawcard(player1.hand)
 drawcard(player1.hand)
 drawcard(player1.hand)
+print("\n\nthe players hand contains:")
 player1.showhand()
-print(player1.hand)
-
-#print(newgame.board)
 
 
 
-print("drawing 5 cards")
-time.sleep(1)
-print("  ")
+### show gameboard
+print("debug 1 entity gameboard    ", gameboard)
+##### what the hell is it doing that it appends to gameboard
+######
+##### @#$#@$%@##$  promptforyear breakssomuchshit
+placementguess = promptforyear(player1.pickcard(), gameboard)
 
+print("debug 2 entity gameboard  when i never appeneded to it" ,  gameboard)
 
-#print("playercards", player1.hand)
-player1.showhand()
-choice = player1.pickcard()
-print("debug", choice)
-player1.showhand()
-choice = player1.pickcard()
-print(choice)
+##is placement guess valid
 
 
 
 
-
-"""for each in range(0, len(tempdeck) -1):
-                if tempdeck[each][0] <= tempdeck[each +1][0]:
-                        print("so far so good")
-                else:
-                        print(str(tempdeck[each][0]) + "is not less than" + str(tempdeck[each +1]))"""
+print("\n\n")
+if len(gameboard) > 1:
+        print("ERROR\n\nError\nAn invalid entry was added to the game board\n\n DEBUG HELp? Where is it ever setting the global var gameboard to be the same as placementguess")
 
 
 
 
 
 
+"""        
+print(validguess(placementguess))
+if validguess(placementguess) == True:
+        print("!!!! \n!!!!You Guessed Correctly!!!!")
+else:
+        print("This is not correct. Drawing another card.")
+        time.sleep(1)
+        drawcard(player1.hand)
+        ## need to make this check a function so i can do it for any player.
+
+        """
+        
 
 
 
 
 
 
-
-
-
-
-#newgame.addpick(player1.cardchoice)
 
 
 
