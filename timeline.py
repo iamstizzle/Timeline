@@ -3,10 +3,52 @@
 #---Setup---#
 from random import randint
 import time
+#from operator import itemgetter
 #test# print(randint(1,20))
 from deck1 import history_deck
 
-class timeline():
+
+##set game global variables ##
+deck = history_deck
+print(deck)
+gameboard = []
+pacementguess = []
+
+def drawcard(whodraws):
+        randdraw = randint(0, len(deck)-1)
+        card_drawn = deck[randdraw]
+        ##give it to the person/board
+        whodraws.append(card_drawn)
+        del deck[randdraw]
+
+def showcards(cards):
+        for each in cards:
+                print(str(each[0]) + " " + str(each[1]))
+        
+def sortboard(board):
+                board = sorted(board, key=lambda x: x[0])
+                print("sorting occurred")
+                #print(board)
+                #sort(self.board, lamba x: x, key=item[0])
+                return board
+
+
+
+
+print("deck\n" + str(deck) +  "\n\ngameboard\n" + str(gameboard) + '\n')
+drawcard(gameboard)
+drawcard(gameboard)
+print("________________________________")
+drawcard(gameboard)
+showcards(gameboard)
+print("board:   \n\n")
+gameboard = sortboard(gameboard)
+print("boardsorted:   \n\n")
+showcards(gameboard)
+
+## probably can nuke this section soon.  Only need to keep track of player hands as a class.
+## global board/card array is better tracked outsite of a class.
+"""class timeline():
         def __init__(self):
                 self.playertot = 0
                 self.deck = history_deck
@@ -31,7 +73,7 @@ class timeline():
 
         def startboard(self):
                 self.randdraw = randint(0, len(self.deck)-1)
-                print("random number drawn from deck",self.randdraw)
+                #print("random number drawn from deck",self.randdraw)
                 addtoboard = self.deck[self.randdraw]
                 self.removefromdeck(self.randdraw)
                 self.board.append(addtoboard)
@@ -47,7 +89,7 @@ class timeline():
                      
         def sortboard(self):
                 self.board = sorted(self.board, key=lambda x: x[0])
-                #sort(self.board, lamba x: x, key=item[0])
+                #sort(self.board, lamba x: x, key=item[0])"""
 
 
 
@@ -74,9 +116,10 @@ class playerhand():
                 cardpick = raw_input("Which card do you choose: ")
                 print(cardpick)
                 self.cardchoice = self.hand[(int(cardpick) -1)]
-                print(self.cardchoice[1])
+                choice = self.cardchoice
                 ## now remove that from hand.
                 del self.hand[(int(cardpick) -1)]
+                return choice
                 ### need a value for guess date
                 ### self.cardyearguess
 
@@ -89,71 +132,50 @@ class playerhand():
                 # also needs to remove this from hand
 
 #-----------------------------------
-def resolvecard(gamedeck, playerchoice):
-        print('you have chosen: ' +  str(playerchoice[1]))
-        count = 1
-        tempdeck = gamedeck
-        tempdecksort = tempdeck
-        year = False
-        year = raw_input('Guess the year of the card: ')
-        loopexit = False
-        correctguess = True
-        for each in tempdeck:
-                print("debugstepthrough list", str(each))
-                ###print('findyear', gamedeck[0][0])
-                if int(year) <= int(each[0]) and count -1 <= len(tempdeck) & loopexit == False:
-                        print('you guessed lower')
-                        print(len(tempdeck))
-                        tempdeck.insert(count-1, playerchoice)
-                        print("tempdeck results: ", tempdeck)
-                        loopexit = True
-                count +=1
-        else:
-                print("higher was guessed")
-                tempdeck.insert(count-1, playerchoice)
-                print(tempdeck)
-        ## check deck values
-        for each in range(0, len(tempdeck) -1):
-                if tempdeck[each][0] <= tempdeck[each +1][0]:
-                        print("so far so good")
-                else:
-                        print(str(tempdeck[each][0]) + "is not less than" + str(tempdeck[each +1]))
+
+       
+
                         
 ## -- simple gameplay functionality testing--- Temp---#
 #sanity testing phase#
 
                 #define objects to classes #
-newgame = timeline()
-newgame.playersetup()
+
 player1 = playerhand()
         ##
+drawcard(player1.hand)
+drawcard(player1.hand)
+drawcard(player1.hand)
+drawcard(player1.hand)
+player1.showhand()
+print(player1.hand)
 
-print("player1 cards: ", player1.hand)
+#print(newgame.board)
 
-newgame.startboard()
-print(newgame.board)
-newgame.startboard()
-print(newgame.board)
-newgame.startboard()
-newgame.sortboard()
-print(newgame.board)
+
 
 print("drawing 5 cards")
 time.sleep(1)
 print("  ")
 
-player1.drawcard(newgame.loadhand())
-player1.drawcard(newgame.loadhand())
-player1.drawcard(newgame.loadhand())
-player1.drawcard(newgame.loadhand())
-player1.drawcard(newgame.loadhand())
+
 #print("playercards", player1.hand)
 player1.showhand()
-player1.pickcard()
-print("debug", player1.cardchoice)
-newgame.showboard()
+choice = player1.pickcard()
+print("debug", choice)
+player1.showhand()
+choice = player1.pickcard()
+print(choice)
 
-resolvecard(newgame.board, player1.cardchoice)
+
+
+
+
+"""for each in range(0, len(tempdeck) -1):
+                if tempdeck[each][0] <= tempdeck[each +1][0]:
+                        print("so far so good")
+                else:
+                        print(str(tempdeck[each][0]) + "is not less than" + str(tempdeck[each +1]))"""
 
 
 
@@ -180,4 +202,4 @@ resolvecard(newgame.board, player1.cardchoice)
 
 
 
-time.sleep(7)
+time.sleep(3)
