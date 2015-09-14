@@ -4,12 +4,12 @@
 from random import randint
 import time
 #test# print(randint(1,20))
-from deck1 import filmandculture_deck 
+from deck1 import history_deck
 
 class timeline():
         def __init__(self):
                 self.playertot = 0
-                self.deck = filmandculture_deck
+                self.deck = history_deck
                 self.board = []
                 self.randdraw = False
 
@@ -24,7 +24,7 @@ class timeline():
         
         def loadhand(self):
                 self.randdraw = randint(0, len(self.deck)-1)
-                print("random number drawn from deck",self.randdraw)
+                #print("random number drawn from deck",self.randdraw)
                 addtoplayer = self.deck[self.randdraw]
                 self.removefromdeck(self.randdraw)
                 return addtoplayer
@@ -38,6 +38,11 @@ class timeline():
 
         def addpick(self, playerchoice):
                 self.board.append(playerchoice)
+
+        def showboard(self):
+                for each in self.board:
+                        print(str(each))
+                        
                 
                      
         def sortboard(self):
@@ -69,7 +74,7 @@ class playerhand():
                 cardpick = raw_input("Which card do you choose: ")
                 print(cardpick)
                 self.cardchoice = self.hand[(int(cardpick) -1)]
-                print(self.cardchoice)
+                print(self.cardchoice[1])
                 ## now remove that from hand.
                 del self.hand[(int(cardpick) -1)]
                 ### need a value for guess date
@@ -84,8 +89,36 @@ class playerhand():
                 # also needs to remove this from hand
 
 #-----------------------------------
-
-
+def resolvecard(gamedeck, playerchoice):
+        print('you have chosen: ' +  str(playerchoice[1]))
+        count = 1
+        tempdeck = gamedeck
+        tempdecksort = tempdeck
+        year = False
+        year = raw_input('Guess the year of the card: ')
+        loopexit = False
+        correctguess = True
+        for each in tempdeck:
+                print("debugstepthrough list", str(each))
+                ###print('findyear', gamedeck[0][0])
+                if int(year) <= int(each[0]) and count -1 <= len(tempdeck) & loopexit == False:
+                        print('you guessed lower')
+                        print(len(tempdeck))
+                        tempdeck.insert(count-1, playerchoice)
+                        print("tempdeck results: ", tempdeck)
+                        loopexit = True
+                count +=1
+        else:
+                print("higher was guessed")
+                tempdeck.insert(count-1, playerchoice)
+                print(tempdeck)
+        ## check deck values
+        for each in range(0, len(tempdeck) -1):
+                if tempdeck[each][0] <= tempdeck[each +1][0]:
+                        print("so far so good")
+                else:
+                        print(str(tempdeck[each][0]) + "is not less than" + str(tempdeck[each +1]))
+                        
 ## -- simple gameplay functionality testing--- Temp---#
 #sanity testing phase#
 
@@ -99,23 +132,45 @@ print("player1 cards: ", player1.hand)
 
 newgame.startboard()
 print(newgame.board)
+newgame.startboard()
+print(newgame.board)
+newgame.startboard()
+newgame.sortboard()
+print(newgame.board)
 
 print("drawing 5 cards")
+time.sleep(1)
+print("  ")
 
 player1.drawcard(newgame.loadhand())
 player1.drawcard(newgame.loadhand())
 player1.drawcard(newgame.loadhand())
 player1.drawcard(newgame.loadhand())
 player1.drawcard(newgame.loadhand())
-print("playercards", player1.hand)
+#print("playercards", player1.hand)
 player1.showhand()
 player1.pickcard()
-player1.showhand()
-print(newgame.board)
-newgame.addpick(player1.cardchoice)
-print(newgame.board)
+print("debug", player1.cardchoice)
+newgame.showboard()
+
+resolvecard(newgame.board, player1.cardchoice)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#newgame.addpick(player1.cardchoice)
 
 
 
