@@ -30,7 +30,10 @@ def sortboard(board):
                 return board
         
 def privateguess(board):
-        return board
+        secretresult = []
+        for each in board:
+                secretresult.append(each)
+        return secretresult
 
 #### need to debug ####  I believe it now fixed to return true and false but never none
 def validguess(placementguess2):
@@ -50,7 +53,10 @@ def validguess(placementguess2):
 ### need to debug ###
 def promptforyear(playerchoice, currentboard):
         count = 0
-        tempguess = currentboard
+        tempguess = []
+        ### added to avoid setting###
+        for each in currentboard:
+                tempguess.append(each)
         yearguess = int(raw_input("Guess the year the -- %s -- happened: " % playerchoice[1]))
         for each in tempguess:
                 count +=1
@@ -120,11 +126,16 @@ deck = filmandculture_deck
 ### load hand with 5
 if totalplayers ==2:
         gameboard = []
+        placementguess = []
         drawcard(gameboard)
         player1 = playerhand()
         player2 = playerhand()
         allplayers = [player1, player2]
         placementguess = privateguess(gameboard)
+        placementguess = privateguess(gameboard)
+        placementguess = privateguess(gameboard)
+        placementguess = privateguess(gameboard)
+        print("@#$@#$@#$@#$@#$@#$@#$@#$@#$@#$#@$@#$#@$@$@#$@#$#@$", placementguess)
         for each in allplayers:
                 count =0
                 while count <5:
@@ -137,7 +148,11 @@ if totalplayers ==2:
         print("\n\n")
         #shoudl set up a victory condition loop
         while len(player1.hand) > 0 and len(player2.hand) > 0 and len(deck) > 0:
+                #need to reset placementguess
+                placementguess = privateguess(gameboard)
                 for each in allplayers:
+                        ### safety reset
+                        placementguess = privateguess(gameboard)
                         print("\n%s has the cards:\n" % each)
                         each.showhand()
                         print("\nThe current board shows:\n")
@@ -145,6 +160,7 @@ if totalplayers ==2:
                         print('\n')
                         #### whatever this function does it already makes gameboard = placementguess and that is bad
                         placementguess = promptforyear(each.pickcard(), placementguess)
+                        print("@#$@#$#@$@#$#$@# leng -2 or more???", placementguess)
                         #there may be in bug in validguess
                         ### it makes it the same as bamgboard here and that is wrong.
                         isvalid =  validguess(placementguess)
@@ -152,19 +168,20 @@ if totalplayers ==2:
                         time.sleep(2)
                         print(gameboard, "gameboard")
                         if isvalid is True:
-                                #gameboard = privateguess(placementguess)   # neve ever do i set the gameboard to == placementguess
+                                gameboard = privateguess(placementguess)   # neve ever do i set the gameboard to == placementguess
+                                showcards(gameboard)
+                                #####showcards(placementguess)
                                 print("!!!! \n!!!!You Guessed Correctly!! temp commented out!!")
                                 time.sleep(1)
                         else:
                                 print("\nThis is not correct. %s Drawing another card." % each)
                                 time.sleep(1)
                                 drawcard(each.hand)
+                                placementguess = privateguess(gameboard)
                         
                 ### now start with player 1
         print(player1.hand, player2.hand)
-print("\nPlayer 1 hand: \n")
-player1.showhand()
-print("\nPlayer 2 hand: \n")
-player2.showhand()
-        
-                
+print("\n\nsomeone won or the geck is out of cards")
+time.sleep(4)
+
+                ##it only checks at the end of the turn so the game allows for ties if both players go out simultaneously.
