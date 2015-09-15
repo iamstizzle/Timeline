@@ -3,12 +3,12 @@
 #---Setup---#
 from random import randint
 import time
-from deck1 import history_deck
+from deck1 import filmandculture_deck
 
 
 
 ##set game global variables ##
-deck = history_deck
+deck = filmandculture_deck
 gameboard = []
 placementguess = []
 ##################################
@@ -63,7 +63,10 @@ def promptforyear(playerchoice, currentboard):
 class playerhand():
         def __init__(self):
                 self.hand = []
+                self.name = "player"
                 self.cardchoice = False
+        def name(self):
+                print(self.name)
                 
         #def drawcard(self, getcard):
                 #will get card from loadhand function in the timeline class getcard must = objectassignedtoclass.loadhand()
@@ -90,63 +93,74 @@ class playerhand():
 ######game test
 ## board setup
 
-drawcard(gameboard)
-drawcard(gameboard)
-gameboard = sortboard(gameboard)
-placementguess = sortboard(gameboard)
-print("the game board displays : \n")
-showcards(gameboard)
-
-
-## give player cards
-player1 = playerhand()
-drawcard(player1.hand)
-drawcard(player1.hand)
-drawcard(player1.hand)
-drawcard(player1.hand)
-print("\n\nthe players hand contains:\n")
-player1.showhand()
-
 
 #print("debug 1 entity gameboard    ", gameboard)
 
 ##### player starts #########
 
 
-placementguess = promptforyear(player1.pickcard(), placementguess)
-
-
-##is placement guess valid
-print("was this guess valid? ", validguess(placementguess))
-
-
-if validguess(placementguess) == True:
-        print("!!!! \n!!!!You Guessed Correctly!!!!")
-        gameboard = placementguess
-else:
-        print("This is not correct. Drawing another card.")
-        time.sleep(1)
-        drawcard(player1.hand)
-        placementguess = gameboard
-
 ## have to updated placementguess###
-placementguess = gameboard
 
+
+
+
+
+time.sleep(1)
+
+
+
+
+### game flow structure testing ##
+"""var  = int(1)
+
+if isinstance(var, int) == True and var >0 and var < 5:
+        print("it says var is a number")
+else:
+        print("nan")"""
+### TODO: WORRY ABOUT SANITIZING INPUTS LATER
+
+
+totalplayers = input("\nHow Many players? 2-4 : ")
+deckselection = int(input("\nWhich deck would you like to play?\n1. History\n2. Art and culture\n3. Both\nChoice? : "))
+deck = filmandculture_deck
+### load hand with 5
+if totalplayers ==2:
+        gameboard = []
+        drawcard(gameboard)
+        placementguess = gameboard
+        player1 = playerhand()
+        player2 = playerhand()
+        allplayers = [player1, player2]
+        for each in allplayers:
+                count =0
+                while count <5:
+                        drawcard(each.hand)
+                        count +=1
+        print("\nPlayer 1 hand: \n")
+        player1.showhand()
+        print("\nPlayer 2 hand: \n")
+        player2.showhand()
+        print("\n\n")
+        for each in allplayers:
+                print("\n%s has the cards:\n" % each)
+                each.showhand()
+                print("\nThe current board shows:\n")
+                showcards(gameboard)
+                print('\n')
+                placementguess = promptforyear(each.pickcard(), placementguess)
+                if validguess(placementguess) == True:
+                        print("!!!! \n!!!!You Guessed Correctly!!!!")
+                        gameboard = placementguess
+                else:
+                        print("\nThis is not correct. %s Drawing another card." % each)
+                        time.sleep(1)
+                        drawcard(each.hand)
+                        placementguess = gameboard
+                        
+                ### now start with player 1
+print("\nPlayer 1 hand: \n")
 player1.showhand()
-
-print("debug placement guess", showcards(placementguess))
-#3 something wrong here. This should not be showing none since I just set this equal to gameboard
-print("\n\n")
-showcards(gameboard)
-print("\n")
-player1.showhand()
-
-
-
-
-
-
-
-
-
-time.sleep(9)
+print("\nPlayer 2 hand: \n")
+player2.showhand()
+        
+                
