@@ -1,20 +1,22 @@
 #! Python3
-
 #---Setup---#
 from random import randint
 import time
 from deck1 import filmandculture_deck
 
-
 #################
 ##### functions ####
 
 def drawcard(whodraws):
-        randdraw = randint(0, len(deck)-1)
-        card_drawn = deck[randdraw]
-        ##give it to the person/board
-        whodraws.append(card_drawn)
-        del deck[randdraw]
+        if len(deck) >= 1:
+                randdraw = randint(0, len(deck)-1)
+                card_drawn = deck[randdraw]
+                ##give it to the person/board
+                whodraws.append(card_drawn)
+                del deck[randdraw]
+        else:
+                pass
+                
         #removes the selection from the deck so it cannot be redrawn
 
 
@@ -23,13 +25,13 @@ def showcards(cards):
                 print(str(each[0]) + " " + str(each[1]))
 
 
-        
-def sortboard(board):
+  # not necessary unless your board starts with more than 2 cards      
+"""def sortboard(board):
                 board = sorted(board, key=lambda x: x[0])
                 print("sorting occurred")
                 #print(board)
                 #sort(self.board, lamba x: x, key=item[0])
-                return board
+                return board"""
 
 
 
@@ -156,13 +158,15 @@ for each in allplayers:
                 count +=1
 
 ##Starts playing##
-while len(player1.hand) > 0 and len(player2.hand) > 0 and len(deck) > 0:
+outofcards = False
+while outofcards == False and len(deck) > 0:
+        print("Cards remaining", len(deck))
                 #need to reset placementguess
         placementguess = privateguess(gameboard)
         for each in allplayers:
                         ### safety reset of placement
                 placementguess = privateguess(gameboard)
-                print("%s turn!" % each.name)
+                print("%s's turn!" % each.name)
                 time.sleep(1)
                 print("\n%s has the cards:\n" % each.name)
                 each.showhand()
@@ -181,21 +185,25 @@ while len(player1.hand) > 0 and len(player2.hand) > 0 and len(deck) > 0:
                 if isvalid is True:
                         gameboard = privateguess(placementguess)
                         showcards(gameboard)
-                        print("\n\nYou Guessed Correctly!\n\n")
-                        time.sleep(1)
+                        print("\n\nYou Guessed Correctly relative to the current cards in play!\n\n")
+                        time.sleep(2)
                 else:
                         print("\nThat is not a correct guess. %s Drawing another card.\n" % each.name)
                         time.sleep(2)
                         drawcard(each.hand)
                         #resets the temporary guesses back to the gameboard since the temporary guesses were invalid.
                         placementguess = privateguess(gameboard)
+                ### check to see if out of cards##
+                #print("length of cards in hand: ", len(each.hand), " len of deck " , len(deck), "", deck)
+                if len(each.hand) < 1 or len(deck) == 0:
+                        outofcards = True
                 time.sleep(2)     
 ######game test
 ## board setup
 
                 
 print("\n\nsomeone won or the deck is out of cards")
-
+print("deck out of cards? ", outofcards)
 time.sleep(4)
              
 ### known bugs.  it only places it relative to position so if there is an  an 83,83, ____ and you guess 83 and it is 84 it puts it at the end making you technically correct 83,83,__83__.
