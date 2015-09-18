@@ -89,7 +89,12 @@ class playerhand():
         def __init__(self, name):
                 self.hand = []
                 self.name = name
+                self.drawcount = 0
                 self.cardchoice = False
+
+        def drawtracker(self):
+                self.drawcount +=1
+                
         def printname(self):
                 print(self.name)
 
@@ -116,10 +121,10 @@ class playerhand():
 
 ### TOTAL PLAYER SETUP
         
-totalplayers = raw_input("How many players? 2-4: " )
-while totalplayers.isdigit() ==False or int(totalplayers) > 4 or int(totalplayers) <2:
+totalplayers = raw_input("How many players? 1-4: " )
+while totalplayers.isdigit() ==False or int(totalplayers) > 4 or int(totalplayers) <1:
         print("Please select an appropriate number.")
-        totalplayers = raw_input("How many players? 2-4: " )
+        totalplayers = raw_input("How many players? 1-4: " )
 ### raw_input makes inputs strings. you need to turn it back into an int)
 totalplayers = int(totalplayers)        
 
@@ -138,10 +143,12 @@ player4 = playerhand("Player 4")
 placementguess = privateguess(gameboard)
 
 ### setup game based on player selection
-if totalplayers == 2:
+if totalplayers == 1:
+        allplayers = [player1]
+elif totalplayers == 2:
         allplayers = [player1, player2]
 elif totalplayers == 3:
-                allplayers = [player1, player2, player3]
+        allplayers = [player1, player2, player3]
 elif totalplayers == 4:
         allplayers = [player1, player2, player3, player4]
 else:
@@ -199,6 +206,7 @@ while outofcards == False and len(deck) > 0:
                                 print("\nThat is not a correct guess. %s Drawing another card.\n" % each.name)
                                 time.sleep(2)
                                 drawcard(each.hand)
+                                each.drawtracker()
                                 #resets the temporary guesses back to the gameboard since the temporary guesses were invalid.
                                 placementguess = privateguess(gameboard)
                                 
@@ -215,7 +223,8 @@ while outofcards == False and len(deck) > 0:
 print("\n\nSomeone won or the deck is out of cards")
 if winner != False:
         print("\nThe Winner is:\n--%s--" % winner)
-
+if totalplayers == 1:
+        print("The number of incorrect guesses was: %s " % player1.drawcount)
 time.sleep(4)
              
 ### known bug.  If you guess a year and it is a tie, it will always put it as the last index that ties   so if you option are 90,91,92 and you

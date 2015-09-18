@@ -48,6 +48,33 @@ filmandculture_deck =[
     [1986, "Crocodile Dundee (movie)"],
     [1987, "RoboCop (movie)"],
     [1987, "Predator (movie)"],
-    [1987, "The Princess Bride (movie)"]
+    [1987, "The Princess Bride (movie)"],
+    [1994, "Forrest Gump (movie)"],
+    [1994, "The Shawshank Redemption (movie)"],
+    [1995, "Toy Story (movie)"],
+    [1995, "Apollo 13 (movie)"],
+    [1995, "Braveheart (movie)"],
+    [1996, "Independence Day (movie)"],
+    [1996, "Space Jam (movie)"],
+    [1997, "Titanic (movie)"],
+    [1997, "Men in Black (movie)"],
+    [1998, "Saving Private Ryan (movie)"],
+    [1998, "Armageddon (movie)"],
+    [1999, "The Matrix (movie)"],
+    [1999, "Star Wars Episode I: The Phantom Menace (movie)"],
+    [2000, "Gladiator (movie)"],
+    [2008, "The Dark Knight (movie)"]
     ]
 
+
+music = [
+    [1992, "The Chronic - Dr. Dre (album)"],
+    [1994, "Weezer - Blue Album"],
+    [1994, "Dookie - Green Day (album)"],
+    [1997, "OK Computer- Radiohead (album)"],
+    [1998, "The Miseducation of Lauryn Hill (album)"]
+
+
+
+
+    ]
