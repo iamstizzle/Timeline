@@ -134,7 +134,7 @@ player2 = playerhand("Player 2")
 player3 = playerhand("Player 3")
 player4 = playerhand("Player 4")
         
-### important to clone board to a backup value which can be checked###
+### Duplicating gameboard to a temporary value which can be tested to confirm guess was sequential. ###
 placementguess = privateguess(gameboard)
 
 ### setup game based on player selection
@@ -148,8 +148,8 @@ else:
         print("ERROR !!!! no players selected")
 
 
-########## START GAME ################
 
+########## START GAME ################
 ##Gives players cards##   
 for each in allplayers:
         count =0
@@ -159,58 +159,67 @@ for each in allplayers:
 
 ##Starts playing##
 outofcards = False
+winner = False
 while outofcards == False and len(deck) > 0:
         print("Cards remaining", len(deck))
                 #need to reset placementguess
         placementguess = privateguess(gameboard)
+
+        # Iterate though players until someone wins.
         for each in allplayers:
-                        ### safety reset of placement
-                placementguess = privateguess(gameboard)
-                print("%s's turn!" % each.name)
-                time.sleep(1)
-                print("\n%s has the cards:\n" % each.name)
-                each.showhand()
-                time.sleep(1)
-                print("\nThe current board shows:\n")
-                time.sleep(1)
-                print("------Game Board------")
-                showcards(gameboard)
-                print('\n')
-                ### Start guessing sequence ##
-                placementguess = promptforyear(each.pickcard(), placementguess)
-                isvalid =  validguess(placementguess)
-                #print("whatdoesvalidguesssay  should be true or false never none,", isvalid)
-                time.sleep(2)
-                ### Check if guess was valid ###
-                if isvalid is True:
-                        gameboard = privateguess(placementguess)
-                        showcards(gameboard)
-                        print("\n\nYou Guessed Correctly relative to the current cards in play!\n\n")
-                        time.sleep(2)
-                else:
-                        print("\nThat is not a correct guess. %s Drawing another card.\n" % each.name)
-                        time.sleep(2)
-                        drawcard(each.hand)
-                        #resets the temporary guesses back to the gameboard since the temporary guesses were invalid.
+                # A check to see if victory conditions were met on the previous turn.
+                if outofcards == False and len(deck) > 0:
+
                         placementguess = privateguess(gameboard)
-                ### check to see if out of cards##
-                #print("length of cards in hand: ", len(each.hand), " len of deck " , len(deck), "", deck)
-                if len(each.hand) < 1 or len(deck) == 0:
-                        outofcards = True
-                time.sleep(2)     
+                        print("%s's turn!" % each.name)
+                        time.sleep(1)
+                        print("\n%s has the cards:\n" % each.name)
+                        each.showhand()
+                        time.sleep(1)
+                        print("\nThe current board shows:\n")
+                        time.sleep(1)
+                        print("------Game Board------")
+                        showcards(gameboard)
+                        print('\n')
+
+                        ### Start guessing sequence ##
+                        placementguess = promptforyear(each.pickcard(), placementguess)
+                        isvalid =  validguess(placementguess)
+                        #print("whatdoesvalidguesssay  should be true or false never none,", isvalid)
+                        time.sleep(2)
+
+                        
+                        ### Check if guess was valid ###
+                        if isvalid is True:
+                                gameboard = privateguess(placementguess)
+                                showcards(gameboard)
+                                print("\n\nYou (%s) Guessed Correctly relative to the current cards in play!\n\n" % each.name)
+                                time.sleep(2)
+                        else:
+                                print("\nThat is not a correct guess. %s Drawing another card.\n" % each.name)
+                                time.sleep(2)
+                                drawcard(each.hand)
+                                #resets the temporary guesses back to the gameboard since the temporary guesses were invalid.
+                                placementguess = privateguess(gameboard)
+                                
+                        ### check to see if out of cards. semi-redundant##
+                        if len(each.hand) < 1:
+                                outofcards = True
+                                winner = each.name
+                        if len(each.hand) < 1 or len(deck) == 0:
+                                outofcards = True
+                        time.sleep(2)     
 ######game test
 ## board setup
-
                 
-print("\n\nsomeone won or the deck is out of cards")
-print("deck out of cards? ", outofcards)
+print("\n\nSomeone won or the deck is out of cards")
+if winner != False:
+        print("\nThe Winner is:\n--%s--" % winner)
+
 time.sleep(4)
              
-### known bugs.  it only places it relative to position so if there is an  an 83,83, ____ and you guess 83 and it is 84 it puts it at the end making you technically correct 83,83,__83__.
-
-                ##it only checks at the end of the turn so the game allows for ties if both players go out simultaneously.
-
-
+### known bug.  If you guess a year and it is a tie, it will always put it as the last index that ties   so if you option are 90,91,92 and you
+## think it happened in 91  it will win if it is 91 or 92. But it will not win if it is 90.
 
 ### Issues ###
 # 01a ::
