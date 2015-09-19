@@ -63,7 +63,25 @@ filmandculture_deck =[
     [1999, "The Matrix (movie)"],
     [1999, "Star Wars Episode I: The Phantom Menace (movie)"],
     [2000, "Gladiator (movie)"],
-    [2008, "The Dark Knight (movie)"]
+    [2008, "The Dark Knight (movie)"],
+    [2004, "Napoleon Dynamite (movie)"],
+    [1979, "Alien (movie)"],
+    [1977, "Star Wars (movie)"],
+    [1975, "Jaws (movie)"],
+    [1975, "Monty Python and the Holy Grail (movie)"],
+    [1973, "The Exorcist (movie)"],
+    [1972, "The Godfather (movie)"],
+    [1979, "Alien (movie)"],
+    [1968, "2001: A Space Odyssey (movie)"],
+    [1963, "Alfred Hitchcocks's The Birds (movie)"],
+    [1960, "Alfred Hitchcocks's Psycho (movie)"],
+    [1955, "Rebel Without a Cause (movie)"],
+    [1951, "Disney's Alice in Wonderland (movie)"],
+    [1947, "Miracle on 34th Street (movie)"],
+    [1962, "To Kill a Mockingbird (movie)"],
+    [2010, "Inception (movie)"],
+    [2013, "Disney's Frozen (movie)"],
+    [2005, "Brokeback Mountain (movie)"] 
     ]
 
 

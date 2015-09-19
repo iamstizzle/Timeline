@@ -4,8 +4,8 @@ from random import randint
 import time
 from deck1 import filmandculture_deck
 
-#################
-##### functions ####
+###################
+#### functions ####
 
 def drawcard(whodraws):
         if len(deck) >= 1:
@@ -25,15 +25,13 @@ def showcards(cards):
                 print(str(each[0]) + " " + str(each[1]))
 
 
-  # not necessary unless your board starts with more than 2 cards      
+# not necessary unless your board starts with 2 or more cards      
 """def sortboard(board):
                 board = sorted(board, key=lambda x: x[0])
                 print("sorting occurred")
                 #print(board)
                 #sort(self.board, lamba x: x, key=item[0])
                 return board"""
-
-
 
 ## needed to fix issue 01a
 def privateguess(board):
@@ -58,9 +56,8 @@ def validguess(placementguess2):
 def promptforyear(playerchoice, currentboard):
         count = 0
         tempguess = []
-        ### redundant logic to avoid issue 01a ###
-        for each in currentboard:
-                tempguess.append(each)
+        ### redundant logic to avoid issue 01a ###c mod 9/18/15 23:00
+        tempguess = privateguess(currentboard)
         yearguess = raw_input("Guess the year the -- %s -- happened: " % playerchoice[1])
         ## sanitize for int
         while yearguess.isdigit() == False:
@@ -78,12 +75,11 @@ def promptforyear(playerchoice, currentboard):
                 else:
                         pass
         tempguess.append(playerchoice)
-        #print("sorry this was a higher guess than all\n")
+        #appends at the end if a lower match wasn't found
         return tempguess
 
 
-
-###--------------player setup-------------------------------###
+###--------------player setup------------------###
 
 class playerhand():
         def __init__(self, name):
@@ -117,10 +113,9 @@ class playerhand():
                 del self.hand[(int(cardpick) -1)]
                 return choice
 
-#-----------------------------------
-
+#####-----------------
 ### TOTAL PLAYER SETUP
-        
+#####-----------------        
 totalplayers = raw_input("How many players? 1-4: " )
 while totalplayers.isdigit() ==False or int(totalplayers) > 4 or int(totalplayers) <1:
         print("Please select an appropriate number.")
@@ -153,9 +148,7 @@ elif totalplayers == 4:
         allplayers = [player1, player2, player3, player4]
 else:
         print("ERROR !!!! no players selected")
-
-
-
+###-----------------------------------
 ########## START GAME ################
 ##Gives players cards##   
 for each in allplayers:
@@ -172,23 +165,24 @@ while outofcards == False and len(deck) > 0:
                 #need to reset placementguess
         placementguess = privateguess(gameboard)
 
-        # Iterate though players until someone wins.
+        ### Iterate though players until someone wins.
         for each in allplayers:
                 # A check to see if victory conditions were met on the previous turn.
                 if outofcards == False and len(deck) > 0:
 
                         placementguess = privateguess(gameboard)
-                        print("%s's turn!" % each.name)
+                        print("\n%s's turn!\n" % each.name)
                         time.sleep(1)
-                        print("\n%s has the cards:\n" % each.name)
-                        each.showhand()
-                        time.sleep(1)
-                        print("\nThe current board shows:\n")
+                        print("\nThe current board shows:\n\n")
                         time.sleep(1)
                         print("------Game Board------")
                         showcards(gameboard)
-                        print('\n')
-
+                        print('\n\n')
+                        time.sleep(2)
+                        print("%s has the cards:\n" % each.name)
+                        each.showhand()
+                        time.sleep(1)
+                        
                         ### Start guessing sequence ##
                         placementguess = promptforyear(each.pickcard(), placementguess)
                         isvalid =  validguess(placementguess)
@@ -202,9 +196,11 @@ while outofcards == False and len(deck) > 0:
                                 showcards(gameboard)
                                 print("\n\nYou (%s) Guessed Correctly relative to the current cards in play!\n\n" % each.name)
                                 time.sleep(2)
+                                print("\n\n")
                         else:
-                                print("\nThat is not a correct guess. %s Drawing another card.\n" % each.name)
+                                print("\nThe answer was %s. %s Drawing another card.\n\n\n\n" % (each.cardchoice[0], each.name))
                                 time.sleep(2)
+                                print("\n\n\n\n\n\n\n")
                                 drawcard(each.hand)
                                 each.drawtracker()
                                 #resets the temporary guesses back to the gameboard since the temporary guesses were invalid.
@@ -217,8 +213,7 @@ while outofcards == False and len(deck) > 0:
                         if len(each.hand) < 1 or len(deck) == 0:
                                 outofcards = True
                         time.sleep(2)     
-######game test
-## board setup
+######Game has exited
                 
 print("\n\nSomeone won or the deck is out of cards")
 if winner != False:
@@ -239,4 +234,3 @@ time.sleep(4)
 # var2 = var1
 # var2.append(4)
 # print(var1, var2)
-
