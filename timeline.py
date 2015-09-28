@@ -3,6 +3,7 @@
 from random import randint
 import time
 from deck1 import filmandculture_deck
+import os
 
 ###################
 #### functions ####
@@ -115,7 +116,11 @@ class playerhand():
 
 #####-----------------
 ### TOTAL PLAYER SETUP
-#####-----------------        
+#####-----------------
+###Welcome
+print("--Welcome to Timeline ver 1.0--\n\nRules:\nSelect a card from your hand then guess the year the event occured.\nGuess correctly and the card will be placed on the game board!")
+print("Guess incorrectly, and that card will be discarded,\nand you will draw another card.\n\nThe first person to run out of cards is the WINNER!!!")
+print("\n--TIPS--:\nYou only have to guess correctly relative to the current cards on the board.\nCards will always match on the current year or one year higher.\n\nExample:\nIf 1980, 1981, and 1982 are in play...\nGuessing 1981 will be correct if the event happened in either 1981 or 1982.\nGuessing 1980 will be correct if the event happened in either 1980 or 1981.\n\n")
 totalplayers = raw_input("How many players? 1-4: " )
 while totalplayers.isdigit() ==False or int(totalplayers) > 4 or int(totalplayers) <1:
         print("Please select an appropriate number.")
@@ -198,9 +203,8 @@ while outofcards == False and len(deck) > 0:
                                 time.sleep(2)
                                 print("\n\n")
                         else:
-                                print("\nThe answer was %s. %s Drawing another card.\n\n\n\n" % (each.cardchoice[0], each.name))
-                                time.sleep(2)
-                                print("\n\n\n\n\n\n\n")
+                                print("\nThe answer was %s. %s Drawing another card.\n\n" % (each.cardchoice[0], each.name))
+                                time.sleep(4)
                                 drawcard(each.hand)
                                 each.drawtracker()
                                 #resets the temporary guesses back to the gameboard since the temporary guesses were invalid.
@@ -212,7 +216,11 @@ while outofcards == False and len(deck) > 0:
                                 winner = each.name
                         if len(each.hand) < 1 or len(deck) == 0:
                                 outofcards = True
-                        time.sleep(2)     
+                        time.sleep(1)
+                        print("\nReadying next player...")
+                        time.sleep(2)
+                        os.system('CLS')
+                        # clearing the output window so stuff doesnt get cluttered #works on cmd not idle debugger.
 ######Game has exited
                 
 print("\n\nSomeone won or the deck is out of cards")
@@ -220,7 +228,7 @@ if winner != False:
         print("\nThe Winner is:\n--%s--" % winner)
 if totalplayers == 1:
         print("The number of incorrect guesses was: %s " % player1.drawcount)
-time.sleep(4)
+time.sleep(6)
              
 ### known bug.  If you guess a year and it is a tie, it will always put it as the last index that ties   so if you option are 90,91,92 and you
 ## think it happened in 91  it will win if it is 91 or 92. But it will not win if it is 90.
