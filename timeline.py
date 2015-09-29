@@ -114,13 +114,15 @@ class playerhand():
                 del self.hand[(int(cardpick) -1)]
                 return choice
 
-#####-----------------
-### TOTAL PLAYER SETUP
-#####-----------------
-###Welcome
-print("--Welcome to Timeline ver 1.0--\n\nRules:\nSelect a card from your hand then guess the year the event occured.\nGuess correctly and the card will be placed on the game board!")
+#####---------------------------
+### TOTAL PLAYER SETUP & WELCOME
+#####---------------------------
+
+print("--Welcome to Timeline ver 1.0--\n\nRules:\nPlayers will be dealt cards, and one card will be placed on the game board.")
+print("Select a card from your hand then guess the year the event occured.\nGuess correctly and the card will be placed on the game board!")
 print("Guess incorrectly, and that card will be discarded,\nand you will draw another card.\n\nThe first person to run out of cards is the WINNER!!!")
 print("\n--TIPS--:\nYou only have to guess correctly relative to the current cards on the board.\nCards will always match on the current year or one year higher.\n\nExample:\nIf 1980, 1981, and 1982 are in play...\nGuessing 1981 will be correct if the event happened in either 1981 or 1982.\nGuessing 1980 will be correct if the event happened in either 1980 or 1981.\n\n")
+
 totalplayers = raw_input("How many players? 1-4: " )
 while totalplayers.isdigit() ==False or int(totalplayers) > 4 or int(totalplayers) <1:
         print("Please select an appropriate number.")
@@ -129,7 +131,7 @@ while totalplayers.isdigit() ==False or int(totalplayers) > 4 or int(totalplayer
 totalplayers = int(totalplayers)        
 
 
-#deckselection = int(input("\nWhich deck would you like to play?\n1. History\n2. Art and culture\n3. Both\nChoice? : "))
+#deckselection feature forthcoming = int(input("\nWhich deck would you like to play?\n1. History\n2. Art and culture\n3. Both\nChoice? : "))
 deck = filmandculture_deck
 gameboard = []
 placementguess = []
@@ -165,7 +167,8 @@ for each in allplayers:
 ##Starts playing##
 outofcards = False
 winner = False
-while outofcards == False and len(deck) > 0:
+victoryconditions = False
+while outofcards == False and len(deck) > 0 and victoryconditions == False:
         print("Cards remaining", len(deck))
                 #need to reset placementguess
         placementguess = privateguess(gameboard)
@@ -199,22 +202,25 @@ while outofcards == False and len(deck) > 0:
                         if isvalid is True:
                                 gameboard = privateguess(placementguess)
                                 showcards(gameboard)
-                                print("\n\nYou (%s) Guessed Correctly relative to the current cards in play!\n\n" % each.name)
-                                time.sleep(2)
-                                print("\n\n")
+                                print("\nYou (%s) Guessed Correctly relative to the current cards in play!\n" % each.name)
+                                time.sleep(1)
+                                print("\n")
                         else:
-                                print("\nThe answer was %s. %s Drawing another card.\n\n" % (each.cardchoice[0], each.name))
+                                print("\nThe answer was %s. %s Drawing another card.\n" % (each.cardchoice[0], each.name))
                                 time.sleep(4)
                                 drawcard(each.hand)
                                 each.drawtracker()
                                 #resets the temporary guesses back to the gameboard since the temporary guesses were invalid.
                                 placementguess = privateguess(gameboard)
-                                
+
+                        spacecont = raw_input("\nPress any key to continue...")        
                         ### check to see if out of cards. semi-redundant##
                         if len(each.hand) < 1:
-                                outofcards = True
+                                victoryconditions = True
                                 winner = each.name
-                        if len(each.hand) < 1 or len(deck) == 0:
+                                print("You are out of cards! You might just win this if no additional players run out this turn.")
+                                time.sleep(3)
+                        if len(deck) == 0:
                                 outofcards = True
                         time.sleep(1)
                         print("\nReadying next player...")
